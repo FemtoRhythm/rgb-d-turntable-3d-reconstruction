@@ -1,0 +1,30 @@
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 虚拟环境
+.venv/
+
+# 运行时生成数据（点云 / 网格 / 深度 / 相机参数，可重新生成）
+output/
+
+# Orbbec SDK 与日志
+OrbbecSDK*/
+Log/
+*.zip
+
+# uv 锁文件与缓存
+.lock
+CACHEDIR.TAG
+
+# IDE
+.vscode/
+.idea/
+
+# SAM2 模型权重
+checkpoints/
+*.pt
+
+# 日志
+*.log
