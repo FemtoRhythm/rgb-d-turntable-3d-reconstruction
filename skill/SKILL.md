@@ -29,11 +29,11 @@ pip install sam-2
 
 ```bash
 # 1a. 采集：棋盘格放转台中心，转台上电
-python acquisition.py calib
+python src/acquisition.py calib
 # → 22 帧覆盖 380°，保存到 output/calibration/
 
 # 1b. 解算：拟合空间圆 → 求转轴原点/方向/角速度
-python calibration.py
+python src/calibration.py
 # → 输出 output/axis_params.json
 ```
 
@@ -46,7 +46,7 @@ python calibration.py
 ```bash
 # 电路板放转台中心，转台断电
 $env:FG_MOTION_ONLY = "1"   # 方案3：保留转台圆盘骨架作为几何支撑
-python scan_and_tsdf.py
+python src/scan_and_tsdf.py
 # → 采集 ~100 帧（0.20s/帧，覆盖 380°）
 # → 帧数据保存到 output/frames/frame_XXX.npz
 # → TSDF 融合（voxel=2.0mm, trunc=15.0mm）
@@ -56,7 +56,7 @@ python scan_and_tsdf.py
 **离线重跑**（不扫描相机）：
 ```bash
 $env:TSDF_OFFLINE = "1"
-python scan_and_tsdf.py
+python src/scan_and_tsdf.py
 ```
 
 ### 步骤 3：Poisson 桥接（跨气隙合并）
@@ -76,7 +76,7 @@ TSDF 融合可能生成多个不连通薄壳（圆盘骨架两半 + 近距伪影
 ### 步骤 4：精修
 
 ```bash
-python refine_pcb_mesh.py
+python src/refine_pcb_mesh.py
 # → 输出 output/result/pcb_tsdf_refined.ply
 # → 自动启动可视化窗口（红=原始，蓝=精修后）
 ```
@@ -113,15 +113,16 @@ python refine_pcb_mesh.py
 
 ```
 .
-├── config.py                 # 相机参数 + 标定板 + 采集配置
-├── camera_utils.py           # Orbbec SDK 封装（open/grab_rgbd/close）
-├── acquisition.py            # 标定数据采集（棋盘格 + 转台）
-├── calibration.py            # 转轴解算（空间圆拟合 + 自检）
-├── scan_and_tsdf.py          # 主流程：采集→TSDF融合→后处理
-├── refine_pcb_mesh.py        # 网格精修（径向+厚度剔除+连通域）
-├── segment_foreground.py     # SAM2 前景分割（可选）
-├── mesh_render_views.py      # 正交视图渲染工具
-├── config.py                 # 全局参数
+├── config.py                 # 全局参数（相机 + 标定板 + 采集配置）
+├── src/
+│   ├── camera_utils.py       # Orbbec SDK 封装（open/grab_rgbd/close）
+│   ├── acquisition.py        # 标定数据采集（棋盘格 + 转台）
+│   ├── calibration.py        # 转轴解算（空间圆拟合 + 自检）
+│   ├── scan_and_tsdf.py      # 主流程：采集→TSDF融合→后处理
+│   ├── refine_pcb_mesh.py    # 网格精修（径向+厚度剔除+连通域）
+│   ├── segment_foreground.py # SAM2 前景分割（可选）
+│   └── mesh_render_views.py  # 正交视图渲染工具
+├── requirements.txt          # Python 依赖
 └── .gitignore
 ```
 
