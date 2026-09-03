@@ -15,11 +15,15 @@
 
 import json
 import os
+import sys
 import time
 
 import numpy as np
 import cv2
 import open3d as o3d
+
+# 脚本在 src/ 下，把仓库根目录加进 sys.path 以便 import config
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import ACQUISITION, CHESSBOARD, ensure_dirs, angle_deg_from_timestamp
 from camera_utils import OrbbecCamera, save_camera_params

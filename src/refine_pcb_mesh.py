@@ -19,10 +19,9 @@ import sys
 import numpy as np
 import open3d as o3d
 
-AXIS_PARAM_FILE = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "output", "axis_params.json")
-RESULT_DIR = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "output", "result")
+_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+AXIS_PARAM_FILE = os.path.join(_ROOT_DIR, "output", "axis_params.json")
+RESULT_DIR = os.path.join(_ROOT_DIR, "output", "result")
 
 
 def point_to_plane(points_nx3, plane_abcd):

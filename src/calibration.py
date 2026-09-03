@@ -23,11 +23,15 @@
 
 import json
 import os
+import sys
 from datetime import datetime
 
 import numpy as np
 import cv2
 from scipy.optimize import least_squares
+
+# 脚本在 src/ 下，把仓库根目录加进 sys.path 以便 import config
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import (CALIB_DATA_DIR, AXIS_PARAM_FILE, CHESSBOARD, CALIBRATION,
                     ACQUISITION, angle_deg_from_timestamp, ensure_dirs)
