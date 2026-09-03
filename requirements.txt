@@ -1,0 +1,8 @@
+numpy
+scipy
+opencv-python
+open3d
+pyorbbecsdk
+
+# 可选：SAM2 前景分割（体积较大，默认不装）
+# sam-2

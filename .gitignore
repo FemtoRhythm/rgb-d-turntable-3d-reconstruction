@@ -28,3 +28,7 @@ checkpoints/
 
 # 日志
 *.log
+
+# skill 目录（AI 编码代理指令）：忽略运行产生的临时文件
+skill/scratch/
+skill/**/*.tmp

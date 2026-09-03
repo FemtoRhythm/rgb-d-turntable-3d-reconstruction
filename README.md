@@ -34,7 +34,7 @@
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
-pip install pyorbbecsdk open3d numpy scipy opencv-python
+pip install -r requirements.txt
 # 可选，SAM2 前景分割用
 pip install sam-2
 ```
@@ -48,8 +48,8 @@ pip install sam-2
 棋盘格放转台中心，转台上电：
 
 ```bash
-python acquisition.py calib   # 采集约 20 帧，覆盖 380°，存到 output/calibration/
-python calibration.py         # 拟合空间圆解出转轴，输出 output/axis_params.json
+python src/acquisition.py calib   # 采集约 20 帧，覆盖 380°，存到 output/calibration/
+python src/calibration.py         # 拟合空间圆解出转轴，输出 output/axis_params.json
 ```
 
 验收标准：空间圆残差均值 ≤0.5mm、最大 ≤1.0mm；相邻帧重合误差中位 ≤2mm。
@@ -60,7 +60,7 @@ python calibration.py         # 拟合空间圆解出转轴，输出 output/axis
 
 ```powershell
 $env:FG_MOTION_ONLY = "1"   # 保留转台圆盘骨架当几何支撑
-python scan_and_tsdf.py
+python src/scan_and_tsdf.py
 ```
 
 采集约 100 帧（0.20s/帧，覆盖 380°），融合后输出 `output/result/pcb_tsdf.ply`。
@@ -69,13 +69,13 @@ python scan_and_tsdf.py
 
 ```powershell
 $env:TSDF_OFFLINE = "1"
-python scan_and_tsdf.py
+python src/scan_and_tsdf.py
 ```
 
 ### 3. 网格精修
 
 ```bash
-python refine_pcb_mesh.py
+python src/refine_pcb_mesh.py
 ```
 
 输出 `output/result/pcb_tsdf_refined.ply`，并弹窗对比（红=原始，蓝=精修）。
@@ -84,17 +84,23 @@ python refine_pcb_mesh.py
 
 ```
 .
-├── config.py                 # 相机参数、棋盘格、采集配置
-├── camera_utils.py           # Orbbec SDK 封装
-├── acquisition.py            # 标定数据采集
-├── calibration.py            # 转轴解算（空间圆拟合 + 自检）
-├── scan_and_tsdf.py          # 主流程：采集 → TSDF 融合 → 后处理
-├── refine_pcb_mesh.py        # 网格精修（径向 + 厚度剔除 + 连通域）
-├── segment_foreground.py     # 前景分割（中值背景 + 可选 SAM2）
-├── mesh_render_views.py      # 正交视图离线渲染
 ├── assets/                   # 展示图片
-└── skill/SKILL.md            # 给 AI 编码代理看的技能定义
+├── skill/                    # AI 编码 Agent 的 skill 文件
+├── src/                      # 业务代码
+│   ├── acquisition.py        # 标定数据采集
+│   ├── calibration.py        # 转轴解算（空间圆拟合 + 自检）
+│   ├── camera_utils.py       # Orbbec SDK 封装
+│   ├── scan_and_tsdf.py      # 主流程：采集 → TSDF 融合 → 后处理
+│   ├── refine_pcb_mesh.py    # 网格精修（径向 + 厚度剔除 + 连通域）
+│   ├── segment_foreground.py # 前景分割（中值背景 + 可选 SAM2）
+│   └── mesh_render_views.py  # 正交视图离线渲染
+├── config.py                 # 全局配置（相机参数、棋盘格、采集）
+├── requirements.txt          # Python 依赖
+├── .gitignore
+└── README.md
 ```
+
+`skill/` 目录为 AI 编码 Agent 的 skill 文件，便于 AI 工具操作项目；业务代码都在 `src/` 下。
 
 ## 关键参数
 
