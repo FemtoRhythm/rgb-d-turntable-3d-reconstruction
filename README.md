@@ -9,8 +9,8 @@
 <div align="center">
 <table>
   <tr>
-    <td align="center"><img src="assets/sample.jpg" width="420" alt="电路板样品"/></td>
-    <td align="center"><img src="assets/result.png" width="420" alt="重建结果"/></td>
+    <td align="center"><img src="https://cdn.jsdelivr.net/gh/FemtoRhythm/rgb-d-turntable-3d-reconstruction@master/assets/sample.jpg" width="420" alt="电路板样品"/></td>
+    <td align="center"><img src="https://cdn.jsdelivr.net/gh/FemtoRhythm/rgb-d-turntable-3d-reconstruction@master/assets/result.png" width="420" alt="重建结果"/></td>
   </tr>
   <tr>
     <td align="center">电路板样品</td>
